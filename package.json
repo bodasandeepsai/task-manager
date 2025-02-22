@@ -1,0 +1,98 @@
+{
+  
+  "name": "zocket-final",
+  
+  "version": "0.1.0",
+  
+  "private": true,
+  
+  "scripts": {
+  
+    
+  "dev": "next dev",
+  
+    
+  "socket": "ts-node --project tsconfig.server.json server/index.ts",
+  
+    
+  "build": "next build",
+  
+    
+  "start": "next start",
+  
+    
+  "lint": "next lint"
+  
+  },
+  
+  "dependencies": {
+  
+    
+  "@google/generative-ai": "^0.22.0",
+  
+    
+  "@types/socket.io": "^3.0.2",
+  
+    
+  "autoprefixer": "^10.4.20",
+  
+    
+  "bcryptjs": "^3.0.2",
+  
+    
+  "dotenv": "^16.4.7",
+  
+    
+  "jsonwebtoken": "^9.0.2",
+  
+    
+  "mongoose": "^8.10.1",
+  
+    
+  "next": "15.1.7",
+  
+    
+  "react": "^19.0.0",
+  
+    
+  "react-dom": "^19.0.0",
+  
+    
+  "socket.io": "^4.8.1",
+  
+    
+  "socket.io-client": "^4.8.1"
+  
+  },
+  
+  "devDependencies": {
+  
+    
+  "@types/bcryptjs": "^2.4.6",
+  
+    
+  "@types/jsonwebtoken": "^9.0.9",
+  
+    
+  "@types/node": "^20.17.19",
+  
+    
+  "@types/react": "^19",
+  
+    
+  "@types/react-dom": "^19",
+  
+    
+  "postcss": "^8.5.3",
+  
+    
+  "tailwindcss": "^3.4.17",
+  
+    
+  "ts-node": "^10.9.2",
+  
+    
+  "typescript": "^5.7.3"
+  
+  }
+}
