@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Task from "@/models/Task";
 import { cookies } from "next/headers";
@@ -6,9 +6,16 @@ import { verifyToken } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
+// Define the correct type for Next.js route parameters
+type RouteContext = {
+  params: {
+    id: string;
+  };
+};
+
 export async function GET(
-  request: Request,
-  context: { params: { id: string } }
+  req: NextRequest,
+  { params }: RouteContext  // Use the correct type here
 ) {
   try {
     const cookieStore = await cookies();
@@ -21,7 +28,7 @@ export async function GET(
     const user = verifyToken(token.value);
     await connectDB();
 
-    const task = await Task.findById(context.params.id).populate('assignedTo', 'username email');
+    const task = await Task.findById(params.id).populate('assignedTo', 'username email');
 
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
@@ -38,8 +45,8 @@ export async function GET(
 }
 
 export async function PUT(
-  request: Request,
-  context: { params: { id: string } }
+  req: NextRequest,
+  { params }: RouteContext
 ) {
   try {
     const cookieStore = await cookies();
@@ -50,12 +57,12 @@ export async function PUT(
     }
 
     const user = verifyToken(token.value);
-    const data = await request.json();
+    const data = await req.json();
 
     await connectDB();
 
     const task = await Task.findByIdAndUpdate(
-      context.params.id,
+      params.id,
       { ...data },
       { new: true }
     ).populate('assignedTo', 'username email');
@@ -75,8 +82,8 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: Request,
-  context: { params: { id: string } }
+  req: NextRequest,
+  { params }: RouteContext
 ) {
   try {
     const cookieStore = await cookies();
@@ -89,7 +96,7 @@ export async function DELETE(
     const user = verifyToken(token.value);
     await connectDB();
 
-    const task = await Task.findByIdAndDelete(context.params.id);
+    const task = await Task.findByIdAndDelete(params.id);
 
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
