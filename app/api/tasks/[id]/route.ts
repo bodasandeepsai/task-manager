@@ -19,7 +19,7 @@ export async function GET(
   { params }: Props
 ) {
   try {
-    const cookieStore = cookies();
+    const cookieStore =await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
@@ -53,7 +53,7 @@ export async function PUT(
   { params }: Props
 ) {
   try {
-    const cookieStore = cookies();
+    const cookieStore =await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
@@ -92,7 +92,7 @@ export async function DELETE(
   { params }: Props
 ) {
   try {
-    const cookieStore = cookies();
+    const cookieStore =await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {

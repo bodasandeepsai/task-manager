@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 // Get all tasks
 export async function GET(request: Request) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
 // Create new task
 export async function POST(request: Request) {
   try {
-    const cookieStore = cookies();
+    const cookieStore =await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
