@@ -157,11 +157,14 @@ export default function CreateTaskForm({ onClose }: CreateTaskFormProps) {
                       <button
                         key={priority}
                         type="button"
-                        onClick={() => setFormData(prev => ({ ...prev, priority }))}
+                        onClick={() => setFormData(prev => ({ 
+                          ...prev, 
+                          priority: priority as 'LOW' | 'MEDIUM' | 'HIGH' 
+                        }))}
                         className={`px-4 py-2 border rounded-lg text-sm font-medium transition-all ${
                           formData.priority === priority 
-                            ? getPriorityColor(priority) + ' ring-2 ring-offset-2 ring-blue-500'
-                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                          ? getPriorityColor(priority) + ' ring-2 ring-offset-2 ring-blue-500'
+                          : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                         }`}
                       >
                         {priority}
