@@ -6,11 +6,11 @@ import { verifyToken } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, context: any) {
   try {
+    const { params } = context;
+    const { id } = params;
+
     const cookieStore = cookies();
     const token = cookieStore.get('token');
 
@@ -25,7 +25,7 @@ export async function GET(
 
     await connectDB();
 
-    const task = await Task.findById(params.id).populate('assignedTo', 'username email');
+    const task = await Task.findById(id).populate('assignedTo', 'username email');
 
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
@@ -41,11 +41,11 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, context: any) {
   try {
+    const { params } = context;
+    const { id } = params;
+
     const cookieStore = cookies();
     const token = cookieStore.get('token');
 
@@ -62,7 +62,7 @@ export async function PUT(
 
     await connectDB();
 
-    const task = await Task.findByIdAndUpdate(params.id, { ...data }, { new: true })
+    const task = await Task.findByIdAndUpdate(id, { ...data }, { new: true })
       .populate('assignedTo', 'username email');
 
     if (!task) {
@@ -79,11 +79,11 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, context: any) {
   try {
+    const { params } = context;
+    const { id } = params;
+
     const cookieStore = cookies();
     const token = cookieStore.get('token');
 
@@ -98,7 +98,7 @@ export async function DELETE(
 
     await connectDB();
 
-    const task = await Task.findByIdAndDelete(params.id);
+    const task = await Task.findByIdAndDelete(id);
 
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
