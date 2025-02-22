@@ -8,7 +8,7 @@ import { verifyToken } from "@/lib/auth";
 export const dynamic = 'force-dynamic';
 
 // Get all tasks
-export async function GET(req: Request) {
+export async function GET(request: Request) {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get('token');
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
 }
 
 // Create new task
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get('token');
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     }
 
     const user = verifyToken(token.value);
-    const data = await req.json();
+    const data = await request.json();
 
     await connectDB();
 

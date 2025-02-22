@@ -6,14 +6,18 @@ import { verifyToken } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-interface RouteParams {
+// Correct type definition for Next.js route handlers
+type Props = {
   params: {
     id: string;
   };
-}
+};
 
 // Get single task
-export async function GET(request: Request, { params }: RouteParams) {
+export async function GET(
+  request: Request,
+  { params }: Props
+) {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get('token');
@@ -44,7 +48,10 @@ export async function GET(request: Request, { params }: RouteParams) {
 }
 
 // Update task
-export async function PUT(request: Request, { params }: RouteParams) {
+export async function PUT(
+  request: Request,
+  { params }: Props
+) {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get('token');
@@ -80,7 +87,10 @@ export async function PUT(request: Request, { params }: RouteParams) {
 }
 
 // Delete task
-export async function DELETE(request: Request, { params }: RouteParams) {
+export async function DELETE(
+  request: Request,
+  { params }: Props
+) {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get('token');
