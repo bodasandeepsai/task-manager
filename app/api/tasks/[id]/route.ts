@@ -11,7 +11,7 @@ export async function GET(request: NextRequest, context: any) {
     const { params } = context;
     const { id } = params;
 
-    const cookieStore = cookies();
+    const cookieStore =await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
@@ -46,7 +46,7 @@ export async function PUT(request: NextRequest, context: any) {
     const { params } = context;
     const { id } = params;
 
-    const cookieStore = cookies();
+    const cookieStore =await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
@@ -84,7 +84,7 @@ export async function DELETE(request: NextRequest, context: any) {
     const { params } = context;
     const { id } = params;
 
-    const cookieStore = cookies();
+    const cookieStore =await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
