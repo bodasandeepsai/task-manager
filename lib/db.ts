@@ -29,17 +29,22 @@ export async function connectDB() {
       bufferCommands: false,
     };
 
-    cached!.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
+    try {
+      const mongooseInstance = await mongoose.connect(MONGODB_URI, opts);
+      cached!.conn = mongooseInstance;
+      cached!.promise = Promise.resolve(mongooseInstance);
+      return cached.conn;
+    } catch (e) {
+      throw e;
+    }
   }
 
   try {
-    cached!.conn = await cached?.promise;
+    const conn = await cached.promise;
+    cached!.conn = conn;
+    return conn;
   } catch (e) {
     cached!.promise = null;
     throw e;
   }
-
-  return cached?.conn;
 } 
