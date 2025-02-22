@@ -6,16 +6,9 @@ import { verifyToken } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-// Define the correct type for Next.js route parameters
-type RouteContext = {
-  params: {
-    id: string;
-  };
-};
-
 export async function GET(
-  req: NextRequest,
-  { params }: RouteContext  // Use the correct type here
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
     const cookieStore = await cookies();
@@ -45,8 +38,8 @@ export async function GET(
 }
 
 export async function PUT(
-  req: NextRequest,
-  { params }: RouteContext
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
     const cookieStore = await cookies();
@@ -57,7 +50,7 @@ export async function PUT(
     }
 
     const user = verifyToken(token.value);
-    const data = await req.json();
+    const data = await request.json();
 
     await connectDB();
 
@@ -82,8 +75,8 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: NextRequest,
-  { params }: RouteContext
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
     const cookieStore = await cookies();
