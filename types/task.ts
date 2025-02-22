@@ -16,9 +16,9 @@ export interface ITask {
 
 export interface CreateTaskInput {
   title: string;
-  description?: string;
-  priority: TaskPriority;
-  dueDate: Date;
+  description: string;
+  priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  dueDate: string;
   assignedTo: string;
 }
 
