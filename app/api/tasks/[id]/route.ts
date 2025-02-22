@@ -6,20 +6,12 @@ import { verifyToken } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-// Correct type definition for Next.js route handlers
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-// Get single task
 export async function GET(
   request: Request,
-  { params }: Props
+  context: { params: { id: string } }
 ) {
   try {
-    const cookieStore =await cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
@@ -29,9 +21,7 @@ export async function GET(
     const user = verifyToken(token.value);
     await connectDB();
 
-    const task = await Task.findById(params.id)
-      .populate('assignedTo', 'username email')
-      .populate('createdBy', 'username email');
+    const task = await Task.findById(context.params.id).populate('assignedTo', 'username email');
 
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
@@ -47,13 +37,12 @@ export async function GET(
   }
 }
 
-// Update task
 export async function PUT(
   request: Request,
-  { params }: Props
+  context: { params: { id: string } }
 ) {
   try {
-    const cookieStore =await cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
@@ -62,15 +51,14 @@ export async function PUT(
 
     const user = verifyToken(token.value);
     const data = await request.json();
-    
+
     await connectDB();
+
     const task = await Task.findByIdAndUpdate(
-      params.id,
-      { ...data, updatedAt: new Date() },
+      context.params.id,
+      { ...data },
       { new: true }
-    )
-    .populate('assignedTo', 'username email')
-    .populate('createdBy', 'username email');
+    ).populate('assignedTo', 'username email');
 
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
@@ -86,13 +74,12 @@ export async function PUT(
   }
 }
 
-// Delete task
 export async function DELETE(
   request: Request,
-  { params }: Props
+  context: { params: { id: string } }
 ) {
   try {
-    const cookieStore =await cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('token');
 
     if (!token) {
@@ -101,7 +88,8 @@ export async function DELETE(
 
     const user = verifyToken(token.value);
     await connectDB();
-    const task = await Task.findByIdAndDelete(params.id);
+
+    const task = await Task.findByIdAndDelete(context.params.id);
 
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
